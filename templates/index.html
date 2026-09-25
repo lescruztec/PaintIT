@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %} 
+        {% if session.get("user_id") %}
+        <!-- alerts from: https://getbootstrap.com/docs/4.4/components/alerts/-->
+            <div id="profile-view" class="alert alert-success" role="alert">
+                    Welcome back, {{ username }} !
+            </div>
+        {% else %}
+            <div id="profile-view" class="alert alert-info" role="alert">
+                    Login to access the app!
+            </div>
+        {% endif %}
+        <form action='/' method="POST">
+            <div class="mb-3">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" type="text" name="title" placeholder="title">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto"  type="number" name="width" placeholder="width">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" type="number" name="height" placeholder="height">
+                <br>
+                <button class="btn btn-primary d-block mx-auto" type="submit">Create Canvas</button>
+            </div>
+        </form>
+ 
+        <hr>
+
+       
+    {% if session.get("user_id") %}
+    <!-- grid techniques from: https://getbootstrap.com/docs/5.3/layout/grid/ and some chatgpt-->
+    <div class="drawing-view">
+        <div class="row ">
+            {% for drawing in drawings %}
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100">
+                        <img src="{{ drawing.image_path }}" class="card-img-top">
+                        <div class="card-body d-flex flex-column"> 
+                            <h5 class="card-title">{{ drawing.title }}</h5>
+                            <p class="card-text"><small class="text-body-secondary"><br>Width: {{ drawing.resolution_width }}<br>Height: {{ drawing.resolution_height }}<br>Created at: {{ drawing.created_at }}<br>Last modified: {{ drawing.last_modified }}</small></P>
+                            <a href="/drawing/{{ drawing.drawing_id }}" class="btn btn-primary mt-auto">Continue</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

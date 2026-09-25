@@ -1,0 +1,46 @@
+
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ drawing.title }}
+{% endblock %}
+
+{% block main %}
+    <!-- data learned from web50, specifically week 6: https://cs50.harvard.edu/web/notes/6/ also the views div was inspired from there too-->
+    <h1 id="drawing_id" data-drawing="{{ drawing.drawing_id }}" class="text-muted">{{ drawing.title }}</h1>
+    <div id="toolbar-view">
+        
+        <select id="file">
+            <option value="File" disabled selected style="display: none;">File</option>
+            <option value="Save_Account">Save to Account</option>
+            <option value="Save_Transparent">Save Image with Transparent Background</option>
+            <option value="Save_White">Save Image with White Background</option>
+        </select>
+
+        <button id="Undo">Undo</button>
+        <button id="Redo">Redo</button>
+        <button id="brush">Brush</button>
+        <button id="eraser">Eraser</button>
+
+        <button id="zoom-in">+</button>
+        <button id="zoom-out">-</button>
+        <span id="zoom-amount">100%</span>
+        | Brush Size: <input type="number" id="brush-size" value="5">
+        <select id="brush-colors">
+            <option value="Black">Black</option>
+            <option value="Red">Red</option>
+            <option value="Green">Green</option>
+            <option value="Blue">Blue</option>
+        </select>
+
+
+    </div>
+
+    <div id="canvas-view">
+        {% if drawing.image_path %}
+            <img id="image_placeholder" src="{{ drawing.image_path }}" style="display: none;">
+        {% endif %}
+        <canvas id="canvas" width="{{ drawing.resolution_width }}" height="{{ drawing.resolution_height }}" style="border:1px solid #000000;"></canvas>
+    </div>
+    <script src="/static/drawing.js"></script>
+{% endblock %}
